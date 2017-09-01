@@ -12,7 +12,7 @@ import App from './App.vue'
 
 Vue.use(VueResource)
 Vue.use(VueLazyload, {
-  // error: 'src/images/loading.gif',
+  error: 'src/images/404.png',
   loading: 'src/images/loading.gif',
   attempt: 2
 })

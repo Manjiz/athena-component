@@ -5,7 +5,7 @@ module.exports = {
   app: path.join(process.cwd(), 'app'),
 
   // 组件存放目录
-  warehouse: path.join(process.cwd(), 'warehouse'),
+  warehouse: path.join(process.cwd(), 'app/warehouse'),
 
   // 数据文件存放目录
   dbdir: path.join(process.cwd(), 'database'),

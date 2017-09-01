@@ -87,15 +87,23 @@ const actions = {
   },
   delWidget ({commit}, {id, index}) {
     commit(WIDGET_DEL, { status: -1 })
-    Vue.http.get(`${URL.WIDGET_DEL}/${id}`).then((res) => {
-      if (res.ok) {
-        commit(WIDGET_DEL, { status: 0, index })
-      } else {
-        commit(WIDGET_DEL, { status: 1 })
-      }
-    }).catch((error) => {
+    const Widget = Parse.Object.extend('Widget')
+    const widget = Widget.createWithoutData(id)
+    widget.set('state', 1)
+    widget.save().then(() => {
+      commit(WIDGET_DEL, { status: 0, index })
+    }).catch(() => {
       commit(WIDGET_DEL, { status: 1 })
     })
+    // Vue.http.get(`${URL.WIDGET_DEL}/${id}`).then((res) => {
+    //   if (res.ok) {
+    //     commit(WIDGET_DEL, { status: 0, index })
+    //   } else {
+    //     commit(WIDGET_DEL, { status: 1 })
+    //   }
+    // }).catch((error) => {
+    //   commit(WIDGET_DEL, { status: 1 })
+    // })
   },
   getWidgetDetail ({commit}, {id}) {
     commit(WIDGET_DETAIL, { detail: {} })

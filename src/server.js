@@ -22,33 +22,34 @@ const util = require('./util')
 app.use(router.routes())
 app.use(router.allowedMethods())
 app.use(serve(conf.app))
-function fileServe (that, p) {
-  try {
-    let fstat = fs.statSync(p)
-    if (fstat.isFile()) {
-      that.type = path.extname(p)
-      that.body = fs.createReadStream(p)
-    }
-  } catch (err) {
-    // console.log(err)
-  }
-}
-app.use(async (ctx, next) => {
-  const reqPath = ctx.path
-  if (!reqPath.match(/^\/warehouse\//)) {
-    await next()
-  } else if (reqPath.match(/capture\.png/)) {
-    let p = path.join(__dirname, '..', reqPath)
-    if (!util.existsSync(p)) {
-      ctx.body = fs.createReadStream(path.join('src', '404.png'))
-    } else {
-      fileServe(ctx, p)
-    }
-  } else {
-    let p = path.join(__dirname, '..', reqPath)
-    fileServe(ctx, p)
-  }
-})
+// app.use('/test', serve(conf.warehouse))
+// function fileServe (that, p) {
+//   try {
+//     let fstat = fs.statSync(p)
+//     if (fstat.isFile()) {
+//       that.type = path.extname(p)
+//       that.body = fs.createReadStream(p)
+//     }
+//   } catch (err) {
+//     // console.log(err)
+//   }
+// }
+// app.use(async (ctx, next) => {
+//   const reqPath = ctx.path
+//   if (!reqPath.match(/^\/warehouse\//)) {
+//     await next()
+//   } else if (reqPath.match(/capture\.png/)) {
+//     let p = path.join(__dirname, '..', reqPath)
+//     if (!util.existsSync(p)) {
+//       ctx.body = fs.createReadStream(path.join('src', '404.png'))
+//     } else {
+//       fileServe(ctx, p)
+//     }
+//   } else {
+//     let p = path.join(__dirname, '..', reqPath)
+//     fileServe(ctx, p)
+//   }
+// })
 
 //--------------------API--------------------
 router.post('/api/push', upload.single('widget'), api.push)
